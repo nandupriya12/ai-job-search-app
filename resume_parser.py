@@ -4,18 +4,27 @@ def extract_text(uploaded_file):
     with pdfplumber.open(uploaded_file) as pdf:
         text = ""
         for page in pdf.pages:
-            text += page.extract_text()
+            text += page.extract_text() or ""
 
-    # CLEAN SKILLS
-    words = text.lower().split()
+    return text.lower()
 
-    stopwords = [
-        "and", "the", "with", "for", "from", "this", "that",
-        "anjali", "reddy", "india", "email", "phone",
-        "experience", "professional", "summary", "through",
-        "student", "students"
+
+# ✅ NEW FUNCTION (IMPORTANT)
+def extract_skills(text):
+    skills_list = [
+        "python", "java", "c++", "sql",
+        "machine learning", "data science",
+        "html", "css", "javascript",
+        "react", "node", "django",
+        "flask", "nlp", "deep learning",
+        "communication", "teaching",
+        "kannada", "english"
     ]
 
-    skills = [w for w in words if len(w) > 3 and w not in stopwords]
+    found_skills = []
 
-    return " ".join(skills)
+    for skill in skills_list:
+        if skill in text:
+            found_skills.append(skill)
+
+    return found_skills
