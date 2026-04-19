@@ -15,7 +15,7 @@ This project is an AI-powered job search system that matches user resumes with j
 Python, Streamlit, Scikit-learn, NLP
 
 ## Live App
-<your streamlit link>
+<https://ai-job-search-app-l9wpbvuyt3lxpfwrd5i5a2.streamlit.app>
 
 ## Future Improvements
 - Real job API integration
