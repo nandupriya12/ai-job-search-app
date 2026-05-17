@@ -2,8 +2,6 @@ streamlit
 scikit-learn
 pandas
 numpy
-pdfplumber
 requests
+pdfplumber
 python-dotenv
-plotly
-google-generativeai
