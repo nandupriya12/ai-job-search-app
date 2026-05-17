@@ -1,51 +1,82 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from resume_parser import extract_skills
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
+def extract_skills(text):
+
+    skills_list = [
+        "python",
+        "java",
+        "sql",
+        "machine learning",
+        "data science",
+        "power bi",
+        "excel",
+        "tableau",
+        "django",
+        "flask",
+        "react",
+        "javascript",
+        "communication"
+    ]
+
+    found = []
+
+    for skill in skills_list:
+
+        if skill.lower() in text.lower():
+            found.append(skill)
+
+    return found
 
 
 def match_jobs(resume_text, jobs):
 
-    if not jobs:
-        return []
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=500,
+        chunk_overlap=50
+    )
 
-    resume_skills = extract_skills(resume_text)
+    resume_chunks = splitter.split_text(resume_text)
 
-    job_texts = []
+    resume_processed = " ".join(resume_chunks)
+
+    resume_skills = extract_skills(resume_processed)
 
     for job in jobs:
-        text = (
-            str(job.get("title", "")) + " " +
-            str(job.get("company", "")) + " " +
-            str(job.get("description", ""))
-        )
-
-        job_texts.append(text)
-
-    documents = [resume_text] + job_texts
-
-    tfidf = TfidfVectorizer().fit_transform(documents)
-
-    scores = cosine_similarity(tfidf[0:1], tfidf[1:]).flatten()
-
-    for i, job in enumerate(jobs):
-
-        job['match_score'] = round(scores[i] * 100, 2)
 
         job_text = (
-            job.get('title', '') + " " +
-            job.get('description', '')
-        ).lower()
+            job["title"] + " " +
+            job["description"]
+        )
 
-        common_skills = [
-            skill for skill in resume_skills
-            if skill in job_text
-        ]
+        tfidf = TfidfVectorizer()
 
-        job['matched_skills'] = common_skills
+        tfidf_matrix = tfidf.fit_transform([
+            resume_processed,
+            job_text
+        ])
+
+        score = cosine_similarity(
+            tfidf_matrix[0:1],
+            tfidf_matrix[1:2]
+        )[0][0]
+
+        matched = []
+
+        for skill in resume_skills:
+
+            if skill.lower() in job_text.lower():
+                matched.append(skill)
+
+        job["match_score"] = round(score * 100, 2)
+
+        job["matched_skills"] = matched
 
     jobs = sorted(
         jobs,
-        key=lambda x: x['match_score'],
+        key=lambda x: x["match_score"],
         reverse=True
     )
 
