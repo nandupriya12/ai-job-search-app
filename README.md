@@ -1,23 +1,51 @@
-# Smart AI Job Search App
+# 💼 Smart AI Job Search App
 
-## Overview
-This project is an AI-powered job search system that matches user resumes with job listings using NLP techniques.
+An AI-powered career assistant that helps users discover relevant jobs based on their resume skills and preferred location.
 
-## Features
-- Resume parsing (PDF)
-- Job data extraction
-- TF-IDF + cosine similarity matching
-- Match score with explanation
-- Freelance opportunity detection
-- Deployed using Streamlit
+---
 
-## Tech Stack
-Python, Streamlit, Scikit-learn, NLP
+# 🚀 Features
 
-## Live App
-<https://ai-job-search-app-l9wpbvuyt3lxpfwrd5i5a2.streamlit.app>
+✅ Resume Upload (PDF)
 
-## Future Improvements
-- Real job API integration
-- Advanced NLP (BERT embeddings)
-- Skill extraction using NER
+✅ Automatic Skill Extraction
+
+✅ AI-based Job Matching
+
+✅ Live Job Search using Adzuna API
+
+✅ Match Score Calculation
+
+✅ Location-based Filtering
+
+✅ Clean Modern Streamlit UI
+
+✅ Direct Apply Links
+
+---
+
+# 🛠️ Tech Stack
+
+- Python
+- Streamlit
+- Scikit-learn
+- TF-IDF Vectorizer
+- Cosine Similarity
+- Adzuna API
+- PDFPlumber
+
+---
+
+# 📂 Project Structure
+
+```bash
+job-search-app/
+│
+├── app.py
+├── scraper.py
+├── matcher.py
+├── resume_parser.py
+├── requirements.txt
+├── .env
+├── .gitignore
+└── README.md
